@@ -17,7 +17,12 @@
                         <td>{{availableDate.max_slots}}</td>
                         <td>{{availableDate.booked_slots}}</td>
                         <td>
-                            <button @click="createBooking({available_date_id: availableDate.id, user_id: 1})" class="bg-indigo-600 px-2 rounded-xl text-white hover:bg-indigo-800">Book</button>
+                            <!-- :disabled="availableDate.max_slots == availableDate.booked_slots" -->
+                            <button 
+                                @click="createBooking({available_date_id: availableDate.id, user_id: 1})" 
+                                class="bg-indigo-600 px-2 rounded-xl text-white hover:bg-indigo-800"
+                                disabled
+                            >Book</button>
                         </td>
                     </tr>
                 </tbody>
@@ -34,7 +39,6 @@ export default {
         Echo.channel('notifications')
         .listen('BookingAddedNotification', (event) => {
             this.getAvailableDates()
-            console.log(event.message)
         })
   },
   mounted() {

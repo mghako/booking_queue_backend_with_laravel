@@ -2110,6 +2110,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   created: function created() {
@@ -2117,8 +2122,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     Echo.channel('notifications').listen('BookingAddedNotification', function (event) {
       _this.getAvailableDates();
-
-      console.log(event.message);
     });
   },
   mounted: function mounted() {
@@ -44876,6 +44879,7 @@ var render = function() {
                 {
                   staticClass:
                     "bg-indigo-600 px-2 rounded-xl text-white hover:bg-indigo-800",
+                  attrs: { disabled: "" },
                   on: {
                     click: function($event) {
                       return _vm.createBooking({

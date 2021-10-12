@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\Booking\CreateBooking;
 use App\Http\Controllers\Controller;
+use App\Services\CheckBookingLimit;
 
 class BookingController extends Controller
 {
@@ -27,13 +28,21 @@ class BookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, CheckBookingLimit $checkBookingLimit)
     {
         $attributes = $request->validate([
             'user_id' => ['required', 'numeric', Rule::exists('users', 'id')],
             'available_date_id' => ['required', 'numeric', Rule::exists('available_dates', 'id')]
         ]);
+
         $attributes['booking_token'] = 123456;
+        $status = $checkBookingLimit->check($request->available_date_id);
+        if(! $status) { 
+            return response()->json([
+                'success' => false,
+                'message' => 'Booking Full!, Please try the other date :)'
+            ]);
+        }
         try {
             
             dispatch(new CreateBooking($attributes))->delay(now()->addSeconds(3));

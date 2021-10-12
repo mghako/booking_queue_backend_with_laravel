@@ -18,17 +18,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/event', function() {
-    try {
-        // FireNotification::dispatch("Notification fired!");
-        BookingAddedNotification::dispatch("new booking");
-        return [
-            'success' => true,
-            'message' => 'event done!'
-        ];
-    } catch (\Throwable $th) {
-        throw $th;
-    }
-
-});
